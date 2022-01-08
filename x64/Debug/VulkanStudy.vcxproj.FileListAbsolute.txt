@@ -1,0 +1,2 @@
+D:\00_PROJECT\Practice\VulkanStudy\x64\Debug\VulkanStudy.vcxproj.CopyComplete
+D:\00_PROJECT\Practice\VulkanStudy\glfw3.dll
