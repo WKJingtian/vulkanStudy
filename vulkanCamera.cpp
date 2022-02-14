@@ -44,6 +44,7 @@ void vulkanCamera::setViewDirection(glm::vec3 pos, glm::vec3 direc, glm::vec3 up
 	viewMatrix[3][0] = -glm::dot(u, pos);
 	viewMatrix[3][1] = -glm::dot(v, pos);
 	viewMatrix[3][2] = -glm::dot(w, pos);
+	camPos = pos;
 }
 void vulkanCamera::setViewTarget(glm::vec3 pos, glm::vec3 target, glm::vec3 up)
 {
@@ -71,7 +72,11 @@ void vulkanCamera::setViewXYZ(glm::vec3 pos, glm::vec3 rot)
 	viewMatrix[0][2] = w.x;
 	viewMatrix[1][2] = w.y;
 	viewMatrix[2][2] = w.z;
+	//viewMatrix[3][0] = pos.x;
+	//viewMatrix[3][1] = pos.y;
+	//viewMatrix[3][2] = pos.z;
 	viewMatrix[3][0] = -glm::dot(u, pos);
 	viewMatrix[3][1] = -glm::dot(v, pos);
 	viewMatrix[3][2] = -glm::dot(w, pos);
+	camPos = pos;
 }

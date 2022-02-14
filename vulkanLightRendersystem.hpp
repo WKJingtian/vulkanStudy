@@ -4,16 +4,6 @@
 #include "vulkanCamera.hpp"
 #include "vulkanRendersystem.hpp"
 
-//struct FrameInfo
-//{
-//	int frameIndex;
-//	float frameTime;
-//	VkCommandBuffer commandBuffer;
-//	vulkanCamera& camera;
-//	VkDescriptorSet globalSet;
-//	std::map<unsigned int, vulkanGameobject>& sceneObjects;
-//};
-
 class vulkanLightRendersystem
 {
 public:
@@ -25,6 +15,7 @@ public:
 		//,std::vector<vulkanGameobject> &gameObjects);
 	void createPipelineLayout(VkDescriptorSetLayout setLayout);
 	void createPipeline(VkRenderPass renderPass);
+	void update(FrameInfo& info, globalUBO& ubo);
 	vulkanDevice &device;
 	std::unique_ptr<vulkanPipeline> pipeline;
 	VkPipelineLayout layout;

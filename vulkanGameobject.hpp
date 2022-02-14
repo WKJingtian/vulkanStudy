@@ -4,8 +4,14 @@
 #include "glm/glm.hpp"
 
 // 没有CPP文件
+struct component {};
 
-struct TransformComponent
+struct PointLightComponent : component
+{
+    glm::vec4 lightColor{ 1, 1, 1, 1 };
+};
+
+struct TransformComponent : component
 {
     glm::vec3 translation{};
     glm::vec3 scale{1.f, 1.f, 1.f};
@@ -78,6 +84,17 @@ class vulkanGameobject
 public:
     using id_t = unsigned int;
     
+    // temp function
+    static vulkanGameobject makePointLight(glm::vec4 col = glm::vec4(1), float rad = 0.1f)
+    {
+        vulkanGameobject result = createGameObject();
+        result.color = col;
+        result.transform.scale.x = rad;
+        result.pointLight = std::make_unique<PointLightComponent>();
+        result.pointLight->lightColor = col;
+        return result;
+    }
+
     static vulkanGameobject createGameObject()
     {
         static id_t currentId = 0;
@@ -91,6 +108,7 @@ public:
     std::shared_ptr<vulkanModel> model{};
     glm::vec3 color{};
     TransformComponent transform{};
+    std::unique_ptr<PointLightComponent> pointLight = 0;
     vulkanGameobject(id_t objId) : id{objId} {}
     id_t id;
 };

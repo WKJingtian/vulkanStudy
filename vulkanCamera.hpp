@@ -16,4 +16,5 @@ public:
 
 	glm::mat4 projectionMatrix{ 1 };
 	glm::mat4 viewMatrix{ 1 };
+	glm::vec3 camPos{ 0 };
 };

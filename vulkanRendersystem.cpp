@@ -61,13 +61,16 @@ void vulkanRendersystem::renderGameObjects(FrameInfo& frame)
     for (auto& itemPair : frame.sceneObjects)
     {
         auto& obj = itemPair.second;
-        SimplePushConstantData push{};
-        push.modelMatrix = obj.transform.mat4();
-        push.normalMatrix = obj.transform.normalMatrix();
-        vkCmdPushConstants(frame.commandBuffer, layout,
-            VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
-            0, sizeof(SimplePushConstantData), &push);
-        obj.model->bind(frame.commandBuffer);
-        obj.model->draw(frame.commandBuffer);
+        if (obj.model)
+        {
+            SimplePushConstantData push{};
+            push.modelMatrix = obj.transform.mat4();
+            push.normalMatrix = obj.transform.normalMatrix();
+            vkCmdPushConstants(frame.commandBuffer, layout,
+                VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT,
+                0, sizeof(SimplePushConstantData), &push);
+            obj.model->bind(frame.commandBuffer);
+            obj.model->draw(frame.commandBuffer);
+        }
     }
 }

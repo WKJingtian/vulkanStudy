@@ -72,6 +72,8 @@ void vulkanApp::run()
             globalUBO temp{};
             temp.projection = camera.projectionMatrix;
             temp.view = camera.viewMatrix;
+            temp.camPos = glm::vec4(camera.camPos, 1);
+            lightRenderSystem.update(frameInfo, temp);
             uboBuffers[frameIndex]->writeToBuffer(&temp);
             uboBuffers[frameIndex]->flush();
 
@@ -95,14 +97,26 @@ void vulkanApp::loadGameObjects()
     gameObjects.emplace(cube1.getId(), std::move(cube1));
     auto cube2 = vulkanGameobject::createGameObject();
     cube2.model = lveModel;
-    cube2.transform.translation = { 2.0f, 2.0f, 0 };
+    cube2.transform.translation = { 3.0f, .0f, 0 };
     cube2.transform.scale = { 3, 3, 3 };
     gameObjects.emplace(cube2.getId(), std::move(cube2));
     std::shared_ptr<vulkanModel> floorModel =
         vulkanModel::createModel(device, "models/floor.obj");
     auto floor = vulkanGameobject::createGameObject();
     floor.model = floorModel;
-    floor.transform.translation = { 2.0f, 2.0f, 0 };
-    floor.transform.scale = { 5, 1, 5 };
+    floor.transform.translation = { 2.0f, .0f, 0 };
+    floor.transform.scale = { 15, 1, 15 };
     gameObjects.emplace(floor.getId(), std::move(floor));
+
+    for (int i = 0; i < 10; i++)
+    {
+        auto pointLight = vulkanGameobject::makePointLight(
+            glm::vec4(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+                static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+                static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
+                10.0f), 0.01f
+        );
+        pointLight.transform.translation = { 0.05f * (i - 5), 1.0f, 0.0f };
+        gameObjects.emplace(pointLight.getId(), std::move(pointLight));
+    }
 }

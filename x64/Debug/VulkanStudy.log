@@ -1,6 +1,2 @@
-﻿  Main.cpp
-  vulkanApp.cpp
-  vulkanLightRendersystem.cpp
-  vulkanPipeline.cpp
-  vulkanRendersystem.cpp
+﻿  vulkanApp.cpp
   VulkanStudy.vcxproj -> D:\00_PROJECT\Practice\VulkanStudy\VulkanStudy.exe
