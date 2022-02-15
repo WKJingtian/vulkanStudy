@@ -48,7 +48,7 @@ void main()
 		diffuseLight += intensity * cosAngle;
 		
 		vec3 N = surfaceNormal;
-		vec3 L = normalize(directionToLight);
+		vec3 L = normalize(directionToLight) * -1;
 		vec3 V = normalize(directionToView);
 		vec3 R = reflect(-L, N);
 		vec3 specular = light.col.w * light.col.xyz * pow(max(dot(R, V), 0.0), PHONE_EXPONENTIAL);

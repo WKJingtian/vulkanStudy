@@ -3,6 +3,7 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
 
 struct pointLightPushConstant
@@ -83,12 +84,16 @@ void vulkanLightRendersystem::renderGameObjects(FrameInfo& frame)
 
 void vulkanLightRendersystem::update(FrameInfo& info, globalUBO& ubo)
 {
+    auto rot = glm::rotate(glm::mat4(1), info.frameTime,
+        { 0, -1, 0 });
     int lightIdx = 0;
     for (auto& item : info.sceneObjects)
     {
         auto& obj = item.second;
         if (obj.pointLight)
         {
+            obj.transform.translation =
+                glm::vec3(rot * glm::vec4{ obj.transform.translation, 1 });
             ubo.lights[lightIdx].pos = glm::vec4(obj.transform.translation, 1);
             ubo.lights[lightIdx].col = obj.pointLight->lightColor;
             lightIdx++;

@@ -3,6 +3,7 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
 
 vulkanApp::vulkanApp()
@@ -114,9 +115,12 @@ void vulkanApp::loadGameObjects()
             glm::vec4(static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
                 static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
                 static_cast <float> (rand()) / static_cast <float> (RAND_MAX),
-                10.0f), 0.01f
+                1.0f), 0.1f
         );
-        pointLight.transform.translation = { 0.05f * (i - 5), 1.0f, 0.0f };
+        auto rot = glm::rotate(glm::mat4(1), (i * glm::two_pi<float>()) / 10,
+            {0, -1, 0});
+        pointLight.transform.translation = 
+            glm::vec3(rot * glm::vec4{ 1 * (i - 5), -2.0f, 0.0f, 1 });
         gameObjects.emplace(pointLight.getId(), std::move(pointLight));
     }
 }
